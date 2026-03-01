@@ -1,7 +1,9 @@
 import time
 import numpy as np
+import os
+import json
 
-from m1.similarity import cosine_similarity, euclidean_distance
+from similarity import cosine_similarity, euclidean_distance
 
 
 def cosine_loop(a, b, eps=1e-12):
@@ -63,6 +65,26 @@ def main():
     print("Euclidean vectorized time:", vec_time_euc)
     print("Euclidean max diff:", e_diff)
 
+    os.makedirs("outputs", exist_ok=True)
+
+    results = {
+        "cosine": {
+            "loop_time_sec": loop_time_cos,
+            "vectorized_time_sec": vec_time_cos,
+            "max_diff": c_diff,
+        },
+        "euclidean": {
+            "loop_time_sec": loop_time_euc,
+            "vectorized_time_sec": vec_time_euc,
+            "max_diff": e_diff,
+        }
+    }
+
+    outpath = os.path.join("outputs", "bench_similarity.json")
+    with open(outpath, "w") as f:
+        json.dump(results, f, indent=2)
+
+    print(f"Saved benchmark results -> {outpath}")
 
 if __name__ == "__main__":
     main()
