@@ -12,11 +12,15 @@ git clone https://github.com/gabebekele/msml605project <new_repo_name>
 cd <new_repo_name>
 python3 -m venv .venv
 
-# for macOS/Linux
+Activate the virtual environment:
+
+for macOS/Linux
 source .venv/bin/activate
 
-# for Windows
+for Windows
 .venv\Scripts\Activate.ps1
+
+And then install the requirements:
 
 pip install -r requirements.txt
 
