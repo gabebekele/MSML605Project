@@ -100,6 +100,10 @@ def generate_pairs(images_by_id, seed, split_name):
     # Positive pairs
     for identity in identities:
         imgs = images_by_id[identity]
+
+        #Improvement- cap images per identity
+        if len(imgs) > 10:
+            imgs = imgs[:10]
         if len(imgs) < 2:
             continue
 

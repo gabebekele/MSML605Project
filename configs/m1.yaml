@@ -1,7 +1,10 @@
 seed: 123
-data_dir: data/lfw
+data_dir: "data/lfw/downloads/extracted/TAR_GZ.ndownloader.figshare.com_files_5976018BV99nGMtc3Dm-0r8dGjUD5cMNKgNTG9Q_-xj9ajVNsA"
 outputs_dir: outputs
 split_policy: by_identity_70_15_15
 train_frac: 0.70
-validation_frac: 0.15
+val_frac: 0.15
 test_frac: 0.15
+pairs_paths:
+  val: "outputs/pairs/val.csv"
+  test: "outputs/pairs/test.csv"
