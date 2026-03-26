@@ -15,17 +15,20 @@ def load_json(path):
         return json.load(f)
 
 
-def build_run_record(run_id, split_name, pair_version, threshold_info, metrics, note):
+def build_run_record(run_id, split_name, pair_version, threshold_info, metrics, note="", parameters=None):
+    
+    import datetime
+
     record = {
         "run_id": run_id,
-        "timestamp": datetime.now().isoformat(timespec="seconds"),
+        "timestamp": datetime.datetime.now().isoformat(),
         "split": split_name,
         "pair_version": pair_version,
         "threshold_info": threshold_info,
         "metrics": metrics,
+        "parameters": parameters or {},
         "note": note
     }
-
     return record
 
 

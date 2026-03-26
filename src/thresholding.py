@@ -71,7 +71,7 @@ def compute_balanced_accuracy(confusion):
     negative_total = confusion["tn"] + confusion["fp"]
 
     if positive_total == 0 or negative_total == 0:
-        raise ValueError("Balanced accuracy denominator cannot be zero")
+        return 0.0
 
     true_positive_rate = confusion["tp"] / positive_total
     true_negative_rate = confusion["tn"] / negative_total
