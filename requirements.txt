@@ -4,3 +4,6 @@ PyYAML==6.0.3
 tensorflow-datasets==4.9.9
 matplotlib
 pytest>=7.0.0
+torch
+facenet-pytorch
+importlib-resources

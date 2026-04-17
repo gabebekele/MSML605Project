@@ -60,29 +60,25 @@ def reconstruct_identity_split(config, seed):
     return tr_ids, va_ids, te_ids
 
 def collect_images_by_identity(cfg, split_ids):
-    
+    import tensorflow_datasets as tfds
+
     ds = tfds.load("lfw", split="train", data_dir=cfg["data_dir"])
 
     images_by_id = {}
-
     per_id_index = {}
 
-    for ex in tfds.as_numpy(ds):
-        identity = ex["label"].decode("utf-8")
+    for example in tfds.as_numpy(ds):
+        identity = example["label"].decode("utf-8")
 
         if identity not in split_ids:
             continue
 
         per_id_index[identity] = per_id_index.get(identity, 0) + 1
-
         filename = f"{identity}_{per_id_index[identity]:04d}.jpg"
-
-        # Save paths relative to dataset cache dir
         rel_path = os.path.join("lfw", identity, filename)
 
         images_by_id.setdefault(identity, []).append(rel_path)
 
-    # Sort so it is deterministic
     for identity in images_by_id:
         images_by_id[identity] = sorted(images_by_id[identity])
 
