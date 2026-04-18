@@ -85,3 +85,26 @@ Detailed artifacts for each experiment are stored in unique timestamped director
 
 Reproduction Notes
 To reproduce the selected threshold of 0.2653, ensure the configuration utilizes norm: z-score and a pair_limit: 200. Note that using the f1-score selection rule as seen in Run 5 may lead to model collapse on this balanced dataset. Because of this behavior, the balanced_accuracy metric is required to maintain a functional decision boundary for the final results.
+
+
+Milestone 3
+
+Milestone 3 extends the face verification system into a deployable inference pipeline. The system uses an embedding-based representation of face images to compute similarity between two inputs and produce a verification decision. A command-line interface is provided for pair-level inference, returning the similarity score, predicted label, confidence, and latency. The system is designed to run either locally or through Docker using a lightweight inference environment.
+The system uses InceptionResnetV1 (pretrained on VGGFace2) from facenet-pytorch to generate fixed-length embeddings for each face image. Images are deterministically loaded from the LFW dataset using tensorflow_datasets, resized, normalized, and then passed into the model to produce embeddings.
+
+The operating threshold used by the inference pipeline is 0.30612244897959173.
+Cosine similarity is used to compare embeddings, and higher values indicate the same identity.
+Confidence is defined as the absolute difference between the similarity score and the threshold. Predictions farther from the threshold indicate higher confidence, while scores near the threshold indicate lower confidence.
+
+Commands
+Run Local Inference:
+python run_inference.py --config configs/m1.yaml --left <path_to_left_image> --right <path_to_right_image>
+
+Build the Docker:
+docker build -t face-verifier .
+
+Docker Inference:
+docker run --rm -v "${PWD}:/app" face-verifier \
+python run_inference.py --config configs/m1.yaml --left <path_to_left_image> --right <path_to_right_image>
+
+Milestone 3 uses a lightweight dependency file (requirements-m3.txt) to support inference and reduce build complexity. This environment includes only the packages required for embedding generation and inference, while the full project dependencies from Milestones 1 and 2 remain in requirements.txt.
